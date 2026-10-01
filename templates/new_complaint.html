@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Report an Issue - CivicSense</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f5f7fb;
+            color: #1f2937;
+        }
+
+        .navbar {
+            min-height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 7%;
+            background: white;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .brand {
+            color: #1d4ed8;
+            font-size: 23px;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+        }
+
+        .nav-links a {
+            color: #374151;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .nav-links a:hover {
+            color: #1d4ed8;
+        }
+
+        .logout-button {
+            padding: 9px 15px;
+            border-radius: 6px;
+            background: #fee2e2;
+            color: #b91c1c !important;
+        }
+
+        .page {
+            width: 92%;
+            max-width: 1050px;
+            margin: 35px auto 60px;
+        }
+
+        .page-header {
+            margin-bottom: 25px;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 18px;
+            color: #1d4ed8;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .page-header h1 {
+            margin: 0 0 8px;
+            color: #111827;
+            font-size: 32px;
+        }
+
+        .page-header p {
+            margin: 0;
+            color: #6b7280;
+            line-height: 1.5;
+        }
+
+        .layout {
+            display: grid;
+            grid-template-columns: 1.7fr 1fr;
+            gap: 25px;
+            align-items: start;
+        }
+
+        .form-card,
+        .info-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.07);
+        }
+
+        .form-card {
+            padding: 30px;
+        }
+
+        .info-card {
+            padding: 25px;
+        }
+
+        .form-title {
+            margin: 0 0 24px;
+            color: #111827;
+            font-size: 21px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #374151;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .required {
+            color: #dc2626;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px 13px;
+            border: 1px solid #d1d5db;
+            border-radius: 7px;
+            color: #1f2937;
+            background: white;
+            font-family: Arial, sans-serif;
+            font-size: 15px;
+        }
+
+        textarea {
+            min-height: 145px;
+            resize: vertical;
+            line-height: 1.5;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #1d4ed8;
+            box-shadow: 0 0 0 3px #dbeafe;
+        }
+
+        .field-help {
+            margin: 7px 0 0;
+            color: #6b7280;
+            font-size: 12px;
+            line-height: 1.4;
+        }
+
+        .character-count {
+            margin-top: 6px;
+            text-align: right;
+            color: #6b7280;
+            font-size: 12px;
+        }
+
+        .file-input {
+            padding: 10px;
+            background: #f9fafb;
+        }
+
+        .submit-button {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 7px;
+            background: #1d4ed8;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .submit-button:hover {
+            background: #1e40af;
+        }
+
+        .cancel-link {
+            display: block;
+            margin-top: 14px;
+            text-align: center;
+            color: #6b7280;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .info-card h2 {
+            margin: 0 0 20px;
+            color: #111827;
+            font-size: 20px;
+        }
+
+        .info-item {
+            display: flex;
+            gap: 13px;
+            margin-bottom: 21px;
+        }
+
+        .info-icon {
+            width: 34px;
+            height: 34px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            border-radius: 50%;
+            background: #dbeafe;
+            color: #1d4ed8;
+            font-weight: bold;
+        }
+
+        .info-item h3 {
+            margin: 0 0 5px;
+            color: #374151;
+            font-size: 15px;
+        }
+
+        .info-item p {
+            margin: 0;
+            color: #6b7280;
+            font-size: 13px;
+            line-height: 1.45;
+        }
+
+        .privacy-note {
+            margin-top: 24px;
+            padding: 14px;
+            border-radius: 8px;
+            background: #eff6ff;
+            color: #1e40af;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        @media (max-width: 800px) {
+            .navbar {
+                padding: 15px 5%;
+                align-items: flex-start;
+                gap: 15px;
+                flex-direction: column;
+            }
+
+            .nav-links {
+                width: 100%;
+                justify-content: space-between;
+                gap: 10px;
+            }
+
+            .page {
+                width: 92%;
+                margin-top: 25px;
+            }
+
+            .layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 550px) {
+            .form-card,
+            .info-card {
+                padding: 22px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+
+            .page-header h1 {
+                font-size: 27px;
+            }
+
+            .nav-links {
+                flex-wrap: wrap;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <a class="brand" href="/">
+            CivicSense
+        </a>
+
+        <div class="nav-links">
+            <a href="/dashboard">
+                Dashboard
+            </a>
+
+            <a href="/complaints">
+                Complaints
+            </a>
+
+            {% if current_user.role == "admin" %}
+                <a href="/admin/dashboard">
+                    Admin Panel
+                </a>
+            {% endif %}
+
+            <a class="logout-button" href="/logout">
+                Logout
+            </a>
+        </div>
+    </nav>
+
+    <main class="page">
+
+        <div class="page-header">
+            <a class="back-link" href="/dashboard">
+                ← Back to Dashboard
+            </a>
+
+            <h1>
+                Report a Civic Issue
+            </h1>
+
+            <p>
+                Help improve your community by reporting an issue in your area.
+            </p>
+        </div>
+
+        <div class="layout">
+
+            <section class="form-card">
+
+                <h2 class="form-title">
+                    Issue Details
+                </h2>
+
+                <form
+                    method="POST"
+                    action="/complaints/new"
+                    enctype="multipart/form-data"
+                >
+
+                    <div class="form-group">
+                        <label for="title">
+                            Issue Title
+                            <span class="required">*</span>
+                        </label>
+
+                        <input
+                            type="text"
+                            id="title"
+                            name="title"
+                            placeholder="Example: Broken street light near market"
+                            maxlength="150"
+                            required
+                        >
+
+                        <p class="field-help">
+                            Give your complaint a short and clear title.
+                        </p>
+                    </div>
+
+                    <div class="form-row">
+
+                        <div class="form-group">
+                            <label for="category">
+                                Category
+                            </label>
+
+                            <select id="category" name="category">
+                                <option value="">
+                                    Let AI detect category
+                                </option>
+
+                                <option value="Roads">
+                                    Roads and Potholes
+                                </option>
+
+                                <option value="Street Lights">
+                                    Street Lights
+                                </option>
+
+                                <option value="Garbage">
+                                    Garbage and Waste
+                                </option>
+
+                                <option value="Water">
+                                    Water Supply
+                                </option>
+
+                                <option value="Drainage">
+                                    Drainage and Sewage
+                                </option>
+
+                                <option value="Public Safety">
+                                    Public Safety
+                                </option>
+
+                                <option value="Other">
+                                    Other
+                                </option>
+                            </select>
+
+                            <p class="field-help">
+                                Our system can also identify the category automatically.
+                            </p>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="priority">
+                                Priority
+                                <span class="required">*</span>
+                            </label>
+
+                            <select
+                                id="priority"
+                                name="priority"
+                                required
+                            >
+                                <option value="Low">
+                                    Low
+                                </option>
+
+                                <option value="Medium" selected>
+                                    Medium
+                                </option>
+
+                                <option value="High">
+                                    High
+                                </option>
+
+                                <option value="Emergency">
+                                    Emergency
+                                </option>
+                            </select>
+
+                            <p class="field-help">
+                                Select Emergency only for urgent public safety issues.
+                            </p>
+                        </div>
+
+                    </div>
+
+                    <div class="form-group">
+                        <label for="location">
+                            Location
+                        </label>
+
+                        <input
+                            type="text"
+                            id="location"
+                            name="location"
+                            placeholder="Example: Main Market, Sector 12"
+                            maxlength="200"
+                        >
+
+                        <p class="field-help">
+                            Add a landmark or area so the issue can be located easily.
+                        </p>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="description">
+                            Description
+                            <span class="required">*</span>
+                        </label>
+
+                        <textarea
+                            id="description"
+                            name="description"
+                            placeholder="Describe what happened, where it happened and how long it has been happening..."
+                            minlength="20"
+                            maxlength="1000"
+                            required
+                        ></textarea>
+
+                        <div class="character-count">
+                            <span id="characterCount">0</span>/1000 characters
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="image">
+                            Upload Image
+                            <span style="font-weight: normal;">
+                                (Optional)
+                            </span>
+                        </label>
+
+                        <input
+                            class="file-input"
+                            type="file"
+                            id="image"
+                            name="image"
+                            accept=".jpg,.jpeg,.png,.webp"
+                        >
+
+                        <p class="field-help">
+                            Upload JPG, PNG or WEBP image. Maximum size: 5 MB.
+                        </p>
+                    </div>
+
+                    <button
+                        class="submit-button"
+                        type="submit"
+                    >
+                        Submit Complaint
+                    </button>
+
+                    <a
+                        class="cancel-link"
+                        href="/dashboard"
+                    >
+                        Cancel
+                    </a>
+
+                </form>
+
+            </section>
+
+            <aside class="info-card">
+
+                <h2>
+                    How it works
+                </h2>
+
+                <div class="info-item">
+                    <div class="info-icon">
+                        1
+                    </div>
+
+                    <div>
+                        <h3>
+                            Describe the issue
+                        </h3>
+
+                        <p>
+                            Add a clear title and explain the problem in detail.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="info-item">
+                    <div class="info-icon">
+                        2
+                    </div>
+
+                    <div>
+                        <h3>
+                            AI categorization
+                        </h3>
+
+                        <p>
+                            CivicSense analyzes your description and suggests a category.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="info-item">
+                    <div class="info-icon">
+                        3
+                    </div>
+
+                    <div>
+                        <h3>
+                            Admin review
+                        </h3>
+
+                        <p>
+                            The concerned team reviews and updates your complaint status.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="info-item">
+                    <div class="info-icon">
+                        4
+                    </div>
+
+                    <div>
+                        <h3>
+                            Track progress
+                        </h3>
+
+                        <p>
+                            Check your dashboard to see the latest status.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="privacy-note">
+                    Please do not include passwords, bank details or other sensitive
+                    personal information in your complaint.
+                </div>
+
+            </aside>
+
+        </div>
+
+    </main>
+
+    <script>
+        const description = document.getElementById(
+            "description"
+        );
+
+        const characterCount = document.getElementById(
+            "characterCount"
+        );
+
+        description.addEventListener(
+            "input",
+            function () {
+                characterCount.textContent =
+                    description.value.length;
+            }
+        );
+    </script>
+
+</body>
+</html>

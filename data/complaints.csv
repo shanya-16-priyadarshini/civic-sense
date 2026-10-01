@@ -1,0 +1,25 @@
+description,category
+"garbage has not been collected for four days",Waste
+"the dustbin is overflowing near the market",Waste
+"there is a lot of garbage on the street",Waste
+"waste collection vehicle has not arrived",Waste
+"the road has a large pothole",Road
+"road is damaged near the school",Road
+"many potholes are causing problems for vehicles",Road
+"the street surface is broken",Road
+"water pipe is leaking continuously",Water
+"there is no water supply in our area",Water
+"dirty water is coming from the tap",Water
+"water is being wasted because of pipeline leakage",Water
+"street light is not working",Streetlight
+"the lamp post is damaged near the road",Streetlight
+"there is darkness because the streetlight is broken",Streetlight
+"streetlights are not working near the park",Streetlight
+"drain is overflowing near houses",Drainage
+"the drainage system is blocked",Drainage
+"dirty water is collecting in the drain",Drainage
+"sewer water is overflowing on the road",Drainage
+"electricity pole is damaged",Electricity
+"there is a power problem in our locality",Electricity
+"electric wire is hanging dangerously",Electricity
+"electricity supply is interrupted frequently",Electricity

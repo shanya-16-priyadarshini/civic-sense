@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Register - CivicSense</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #eef4ff;
+            color: #1f2937;
+        }
+
+        .page {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 25px;
+        }
+
+        .register-card {
+            width: 100%;
+            max-width: 480px;
+            background: white;
+            padding: 35px;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.12);
+        }
+
+        .logo {
+            text-align: center;
+            color: #1d4ed8;
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 8px;
+            margin-bottom: 10px;
+            color: #1f2937;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #6b7280;
+            margin-bottom: 28px;
+        }
+
+        label {
+            display: block;
+            margin-top: 17px;
+            margin-bottom: 7px;
+            font-weight: bold;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 7px;
+            font-size: 15px;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #1d4ed8;
+            box-shadow: 0 0 0 2px #dbeafe;
+        }
+
+        .help-text {
+            margin-top: 6px;
+            font-size: 13px;
+            color: #6b7280;
+        }
+
+        button {
+            width: 100%;
+            margin-top: 25px;
+            padding: 13px;
+            border: none;
+            border-radius: 7px;
+            background: #1d4ed8;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #1e40af;
+        }
+
+        .login-link {
+            margin-top: 22px;
+            text-align: center;
+            color: #6b7280;
+        }
+
+        .login-link a {
+            color: #1d4ed8;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .home-link {
+            display: block;
+            margin-top: 18px;
+            text-align: center;
+            color: #1d4ed8;
+            text-decoration: none;
+        }
+
+        .note {
+            margin-top: 20px;
+            padding: 12px;
+            border-radius: 7px;
+            background: #fff7ed;
+            color: #9a3412;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="page">
+        <div class="register-card">
+
+            <div class="logo">
+                CivicSense
+            </div>
+
+            <h1>Create Account</h1>
+
+            <p class="subtitle">
+                Register to report and track civic issues.
+            </p>
+
+            <form method="POST" action="/register">
+
+                <label for="name">
+                    Full Name
+                </label>
+
+                <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    placeholder="Enter your full name"
+                    required
+                >
+
+                <label for="email">
+                    Email Address
+                </label>
+
+                <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    placeholder="Enter your email"
+                    required
+                >
+
+                <label for="password">
+                    Password
+                </label>
+
+                <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    placeholder="Minimum 6 characters"
+                    minlength="6"
+                    required
+                >
+
+                <label for="admin_key">
+                    Admin Key
+                    <span style="font-weight: normal;">
+                        (Optional)
+                    </span>
+                </label>
+
+                <input
+                    type="password"
+                    id="admin_key"
+                    name="admin_key"
+                    placeholder="Leave blank for citizen account"
+                >
+
+                <p class="help-text">
+                    Enter valid key for admin. And for the citizen leave it blank. 
+                </p>
+
+                <button type="submit">
+                    Create Account
+                </button>
+            </form>
+
+            <div class="note">
+                Admin key is used by authorized administrator .
+            </div>
+
+            <p class="login-link">
+                Already have an account?
+                <a href="/login">Login here</a>
+            </p>
+
+            <a class="home-link" href="/">
+                ← Back to Home
+            </a>
+
+        </div>
+    </div>
+
+</body>
+</html>

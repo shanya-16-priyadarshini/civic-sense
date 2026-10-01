@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Admin Dashboard - CivicSense</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f5f7fb;
+            color: #1f2937;
+        }
+
+        .navbar {
+            min-height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 7%;
+            background: white;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .brand {
+            color: #1d4ed8;
+            font-size: 23px;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+        }
+
+        .nav-links a {
+            color: #374151;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .nav-links a:hover {
+            color: #1d4ed8;
+        }
+
+        .logout-button {
+            padding: 9px 15px;
+            border-radius: 6px;
+            background: #fee2e2;
+            color: #b91c1c !important;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1250px;
+            margin: 35px auto 60px;
+        }
+
+        .page-heading {
+            margin-bottom: 25px;
+        }
+
+        .page-heading h1 {
+            margin: 0 0 8px;
+            color: #111827;
+            font-size: 30px;
+        }
+
+        .page-heading p {
+            margin: 0;
+            color: #6b7280;
+        }
+
+        .flash {
+            margin-bottom: 20px;
+            padding: 13px 16px;
+            border-radius: 7px;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+        .flash.success {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .flash.error {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .flash.warning {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 17px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            padding: 21px;
+            background: white;
+            border-left: 5px solid #1d4ed8;
+            border-radius: 10px;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06);
+        }
+
+        .stat-card:nth-child(2) {
+            border-left-color: #f59e0b;
+        }
+
+        .stat-card:nth-child(3) {
+            border-left-color: #8b5cf6;
+        }
+
+        .stat-card:nth-child(4) {
+            border-left-color: #16a34a;
+        }
+
+        .stat-label {
+            margin-bottom: 10px;
+            color: #6b7280;
+            font-size: 13px;
+        }
+
+        .stat-value {
+            color: #111827;
+            font-size: 29px;
+            font-weight: bold;
+        }
+
+        .complaints-box {
+            padding: 25px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06);
+        }
+
+        .complaints-box h2 {
+            margin: 0;
+            color: #111827;
+            font-size: 22px;
+        }
+
+        .complaint-card {
+            margin-top: 20px;
+            padding: 20px;
+            border: 1px solid #e5e7eb;
+            border-radius: 9px;
+        }
+
+        .complaint-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 22px;
+        }
+
+        .complaint-title {
+            margin: 0 0 9px;
+            color: #111827;
+            font-size: 19px;
+        }
+
+        .complaint-meta {
+            margin: 6px 0;
+            color: #6b7280;
+            font-size: 13px;
+        }
+
+        .complaint-description {
+            margin: 17px 0;
+            color: #374151;
+            line-height: 1.6;
+        }
+
+        .badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 7px;
+            margin-top: 13px;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 6px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .status-badge {
+            background: #dbeafe;
+            color: #1d4ed8;
+        }
+
+        .category-badge {
+            background: #f3f4f6;
+            color: #374151;
+        }
+
+        .priority-badge {
+            background: #ffedd5;
+            color: #9a3412;
+        }
+
+        .image-label {
+            margin-top: 20px;
+            margin-bottom: 8px;
+            color: #374151;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        .complaint-image {
+            display: block;
+            width: 100%;
+            max-width: 470px;
+            max-height: 290px;
+            object-fit: cover;
+            border: 1px solid #e5e7eb;
+            border-radius: 9px;
+        }
+
+        .no-image {
+            color: #9ca3af;
+            font-size: 13px;
+        }
+
+        .update-area {
+            min-width: 245px;
+            padding: 15px;
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+        }
+
+        .update-area label {
+            display: block;
+            margin-bottom: 8px;
+            color: #374151;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        .update-form {
+            display: flex;
+            gap: 8px;
+        }
+
+        .update-form select {
+            min-width: 150px;
+            padding: 9px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            background: white;
+            color: #374151;
+            font-size: 13px;
+        }
+
+        .update-form button {
+            padding: 9px 13px;
+            border: none;
+            border-radius: 6px;
+            background: #1d4ed8;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .update-form button:hover {
+            background: #1e40af;
+        }
+
+        .updated-time {
+            margin-top: 15px;
+            color: #9ca3af;
+            font-size: 12px;
+        }
+
+        .empty-state {
+            padding: 40px 15px;
+            text-align: center;
+            color: #6b7280;
+        }
+
+        @media (max-width: 950px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .complaint-header {
+                flex-direction: column;
+            }
+
+            .update-area {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .navbar {
+                padding: 15px 5%;
+                align-items: flex-start;
+                gap: 15px;
+                flex-direction: column;
+            }
+
+            .nav-links {
+                width: 100%;
+                flex-wrap: wrap;
+                gap: 12px;
+            }
+
+            .container {
+                width: 92%;
+                margin-top: 25px;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .complaints-box {
+                padding: 18px;
+            }
+
+            .update-form {
+                flex-direction: column;
+            }
+
+            .update-form select,
+            .update-form button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <a
+            class="brand"
+            href="{{ url_for('home') }}"
+        >
+            CivicSense
+        </a>
+
+        <div class="nav-links">
+            <a href="{{ url_for('admin_dashboard') }}">
+                Admin Dashboard
+            </a>
+
+            <a href="{{ url_for('complaint_list') }}">
+                All Complaints
+            </a>
+
+            <a
+                class="logout-button"
+                href="{{ url_for('logout') }}"
+            >
+                Logout
+            </a>
+        </div>
+    </nav>
+
+    <main class="container">
+
+        {% with messages = get_flashed_messages(
+            with_categories=true
+        ) %}
+
+            {% if messages %}
+
+                {% for category, message in messages %}
+                    <div class="flash {{ category }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+
+            {% endif %}
+
+        {% endwith %}
+
+        <section class="page-heading">
+            <h1>
+                Admin Dashboard
+            </h1>
+
+            <p>
+                Review complaints and update their progress.
+            </p>
+        </section>
+
+        <section class="stats-grid">
+
+            <div class="stat-card">
+                <div class="stat-label">
+                    Total Complaints
+                </div>
+
+                <div class="stat-value">
+                    {{ total_complaints }}
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-label">
+                    Submitted
+                </div>
+
+                <div class="stat-value">
+                    {{ submitted_complaints }}
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-label">
+                    In Progress
+                </div>
+
+                <div class="stat-value">
+                    {{ in_progress_complaints }}
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-label">
+                    Resolved
+                </div>
+
+                <div class="stat-value">
+                    {{ resolved_complaints }}
+                </div>
+            </div>
+
+        </section>
+
+        <section class="complaints-box">
+
+            <h2>
+                All Complaints
+            </h2>
+
+            {% if complaints %}
+
+                {% for complaint in complaints %}
+
+                    <article class="complaint-card">
+
+                        <div class="complaint-header">
+
+                            <div>
+                                <h3 class="complaint-title">
+                                    {{ complaint.title }}
+                                </h3>
+
+                                <p class="complaint-meta">
+                                    Complaint ID:
+                                    #{{ complaint.id }}
+                                </p>
+
+                                <p class="complaint-meta">
+                                    User ID:
+                                    #{{ complaint.user_id }}
+                                </p>
+
+                                <p class="complaint-meta">
+                                    Submitted:
+                                    {{ complaint.created_at.strftime(
+                                        "%d %b %Y, %I:%M %p"
+                                    ) }}
+                                </p>
+
+                                {% if complaint.location %}
+                                    <p class="complaint-meta">
+                                        Location:
+                                        {{ complaint.location }}
+                                    </p>
+                                {% endif %}
+
+                                <div class="badges">
+                                    <span class="badge status-badge">
+                                        Status:
+                                        {{ complaint.status }}
+                                    </span>
+
+                                    <span class="badge category-badge">
+                                        Category:
+                                        {{ complaint.category }}
+                                    </span>
+
+                                    <span class="badge priority-badge">
+                                        Priority:
+                                        {{ complaint.priority }}
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="update-area">
+                                <label
+                                    for="status-{{ complaint.id }}"
+                                >
+                                    Update Status
+                                </label>
+
+                                <form
+                                    class="update-form"
+                                    method="POST"
+                                    action="{{ url_for(
+                                        'update_complaint_status',
+                                        complaint_id=complaint.id
+                                    ) }}"
+                                >
+                                    <select
+                                        id="status-{{ complaint.id }}"
+                                        name="status"
+                                        required
+                                    >
+                                        <option
+                                            value="Submitted"
+                                            {% if complaint.status == "Submitted" %}
+                                                selected
+                                            {% endif %}
+                                        >
+                                            Submitted
+                                        </option>
+
+                                        <option
+                                            value="Assigned"
+                                            {% if complaint.status == "Assigned" %}
+                                                selected
+                                            {% endif %}
+                                        >
+                                            Assigned
+                                        </option>
+
+                                        <option
+                                            value="In Progress"
+                                            {% if complaint.status == "In Progress" %}
+                                                selected
+                                            {% endif %}
+                                        >
+                                            In Progress
+                                        </option>
+
+                                        <option
+                                            value="Resolved"
+                                            {% if complaint.status == "Resolved" %}
+                                                selected
+                                            {% endif %}
+                                        >
+                                            Resolved
+                                        </option>
+
+                                        <option
+                                            value="Closed"
+                                            {% if complaint.status == "Closed" %}
+                                                selected
+                                            {% endif %}
+                                        >
+                                            Closed
+                                        </option>
+                                    </select>
+
+                                    <button type="submit">
+                                        Save
+                                    </button>
+                                </form>
+                            </div>
+
+                        </div>
+
+                        <p class="complaint-description">
+                            {{ complaint.description }}
+                        </p>
+
+                        {% if complaint.image_filename %}
+
+                            <div class="image-label">
+                                Uploaded Image
+                            </div>
+
+                            <img
+                                class="complaint-image"
+                                src="{{ url_for(
+                                    'complaint_image',
+                                    filename=complaint.image_filename
+                                ) }}"
+                                alt="Complaint uploaded image"
+                            >
+
+                        {% else %}
+
+                            <p class="no-image">
+                                No image uploaded.
+                            </p>
+
+                        {% endif %}
+
+                        {% if complaint.updated_at %}
+                            <p class="updated-time">
+                                Last updated:
+                                {{ complaint.updated_at.strftime(
+                                    "%d %b %Y, %I:%M %p"
+                                ) }}
+                            </p>
+                        {% endif %}
+
+                    </article>
+
+                {% endfor %}
+
+            {% else %}
+
+                <div class="empty-state">
+                    No complaints available.
+                </div>
+
+            {% endif %}
+
+        </section>
+
+    </main>
+
+</body>
+</html>

@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>All Complaints - CivicSense</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f5f7fb;
+            color: #1f2937;
+        }
+
+        .navbar {
+            min-height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 7%;
+            background: white;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .brand {
+            color: #1d4ed8;
+            font-size: 23px;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+        }
+
+        .nav-links a {
+            color: #374151;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .nav-links a:hover {
+            color: #1d4ed8;
+        }
+
+        .logout-button {
+            padding: 9px 15px;
+            border-radius: 6px;
+            background: #fee2e2;
+            color: #b91c1c !important;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1250px;
+            margin: 35px auto 60px;
+        }
+
+        .page-heading {
+            margin-bottom: 24px;
+        }
+
+        .page-heading h1 {
+            margin: 0 0 8px;
+            color: #111827;
+            font-size: 30px;
+        }
+
+        .page-heading p {
+            margin: 0;
+            color: #6b7280;
+        }
+
+        .filter-card {
+            margin-bottom: 25px;
+            padding: 22px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06);
+        }
+
+        .filter-title {
+            margin: 0 0 17px;
+            color: #111827;
+            font-size: 18px;
+        }
+
+        .filter-form {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr auto auto;
+            gap: 10px;
+            align-items: end;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 7px;
+            color: #374151;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        input,
+        select {
+            width: 100%;
+            min-height: 40px;
+            padding: 9px 11px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            background: white;
+            color: #374151;
+            font-size: 14px;
+        }
+
+        input:focus,
+        select:focus {
+            outline: none;
+            border-color: #1d4ed8;
+            box-shadow: 0 0 0 2px #dbeafe;
+        }
+
+        .filter-button,
+        .clear-button {
+            min-height: 40px;
+            padding: 9px 16px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .filter-button {
+            border: none;
+            background: #1d4ed8;
+            color: white;
+        }
+
+        .filter-button:hover {
+            background: #1e40af;
+        }
+
+        .clear-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #d1d5db;
+            background: white;
+            color: #374151;
+        }
+
+        .clear-button:hover {
+            background: #f3f4f6;
+        }
+
+        .results-heading {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            margin-bottom: 17px;
+        }
+
+        .results-heading h2 {
+            margin: 0;
+            color: #111827;
+            font-size: 22px;
+        }
+
+        .result-count {
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+        .complaints-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .complaint-card {
+            overflow: hidden;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06);
+        }
+
+        .complaint-content {
+            padding: 21px;
+        }
+
+        .complaint-top {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
+        .complaint-title {
+            margin: 0 0 8px;
+            color: #111827;
+            font-size: 18px;
+            line-height: 1.35;
+        }
+
+        .complaint-id {
+            margin: 0;
+            color: #9ca3af;
+            font-size: 12px;
+        }
+
+        .complaint-description {
+            margin: 17px 0;
+            color: #4b5563;
+            line-height: 1.55;
+        }
+
+        .complaint-meta {
+            margin: 7px 0;
+            color: #6b7280;
+            font-size: 13px;
+        }
+
+        .badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 7px;
+            margin-top: 16px;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 6px 9px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: bold;
+        }
+
+        .status-submitted {
+            background: #dbeafe;
+            color: #1d4ed8;
+        }
+
+        .status-assigned {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .status-in-progress {
+            background: #ede9fe;
+            color: #6d28d9;
+        }
+
+        .status-resolved,
+        .status-closed {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .category-badge {
+            background: #f3f4f6;
+            color: #374151;
+        }
+
+        .priority-badge {
+            background: #ffedd5;
+            color: #9a3412;
+        }
+
+        .complaint-image {
+            display: block;
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+        }
+
+        .no-image {
+            padding: 15px 21px;
+            background: #f9fafb;
+            color: #9ca3af;
+            font-size: 13px;
+        }
+
+        .card-footer {
+            padding: 14px 21px;
+            border-top: 1px solid #e5e7eb;
+            color: #9ca3af;
+            font-size: 12px;
+        }
+
+        .empty-state {
+            grid-column: 1 / -1;
+            padding: 55px 20px;
+            background: white;
+            border-radius: 10px;
+            text-align: center;
+            color: #6b7280;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06);
+        }
+
+        .empty-state h3 {
+            margin-top: 0;
+            color: #374151;
+        }
+
+        .empty-state a {
+            display: inline-block;
+            margin-top: 12px;
+            padding: 11px 17px;
+            border-radius: 7px;
+            background: #1d4ed8;
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        @media (max-width: 1050px) {
+            .filter-form {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .complaints-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 700px) {
+            .navbar {
+                padding: 15px 5%;
+                align-items: flex-start;
+                gap: 15px;
+                flex-direction: column;
+            }
+
+            .nav-links {
+                width: 100%;
+                flex-wrap: wrap;
+                gap: 12px;
+            }
+
+            .container {
+                width: 92%;
+                margin-top: 25px;
+            }
+
+            .filter-form {
+                grid-template-columns: 1fr;
+            }
+
+            .results-heading {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <a
+            class="brand"
+            href="{{ url_for('home') }}"
+        >
+            CivicSense
+        </a>
+
+        <div class="nav-links">
+
+            {% if current_user.role == "admin" %}
+
+                <a href="{{ url_for('admin_dashboard') }}">
+                    Admin Dashboard
+                </a>
+
+            {% else %}
+
+                <a href="{{ url_for('dashboard') }}">
+                    Dashboard
+                </a>
+
+                <a href="{{ url_for('new_complaint') }}">
+                    New Complaint
+                </a>
+
+            {% endif %}
+
+            <a href="{{ url_for('complaint_list') }}">
+                All Complaints
+            </a>
+
+            <a
+                class="logout-button"
+                href="{{ url_for('logout') }}"
+            >
+                Logout
+            </a>
+
+        </div>
+    </nav>
+
+    <main class="container">
+
+        <section class="page-heading">
+            <h1>
+                All Complaints
+            </h1>
+
+            <p>
+                Search and explore reported civic issues.
+            </p>
+        </section>
+
+        <section class="filter-card">
+
+            <h2 class="filter-title">
+                Find a Complaint
+            </h2>
+
+            <form
+                class="filter-form"
+                method="GET"
+                action="{{ url_for('complaint_list') }}"
+            >
+
+                <div class="form-group">
+                    <label for="search">
+                        Search
+                    </label>
+
+                    <input
+                        type="text"
+                        id="search"
+                        name="search"
+                        value="{{ search }}"
+                        placeholder="Title, description or location"
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="status">
+                        Status
+                    </label>
+
+                    <select
+                        id="status"
+                        name="status"
+                    >
+                        <option value="">
+                            All statuses
+                        </option>
+
+                        <option
+                            value="Submitted"
+                            {% if status_filter == "Submitted" %}
+                                selected
+                            {% endif %}
+                        >
+                            Submitted
+                        </option>
+
+                        <option
+                            value="Assigned"
+                            {% if status_filter == "Assigned" %}
+                                selected
+                            {% endif %}
+                        >
+                            Assigned
+                        </option>
+
+                        <option
+                            value="In Progress"
+                            {% if status_filter == "In Progress" %}
+                                selected
+                            {% endif %}
+                        >
+                            In Progress
+                        </option>
+
+                        <option
+                            value="Resolved"
+                            {% if status_filter == "Resolved" %}
+                                selected
+                            {% endif %}
+                        >
+                            Resolved
+                        </option>
+
+                        <option
+                            value="Closed"
+                            {% if status_filter == "Closed" %}
+                                selected
+                            {% endif %}
+                        >
+                            Closed
+                        </option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="priority">
+                        Priority
+                    </label>
+
+                    <select
+                        id="priority"
+                        name="priority"
+                    >
+                        <option value="">
+                            All priorities
+                        </option>
+
+                        <option
+                            value="Low"
+                            {% if priority_filter == "Low" %}
+                                selected
+                            {% endif %}
+                        >
+                            Low
+                        </option>
+
+                        <option
+                            value="Medium"
+                            {% if priority_filter == "Medium" %}
+                                selected
+                            {% endif %}
+                        >
+                            Medium
+                        </option>
+
+                        <option
+                            value="High"
+                            {% if priority_filter == "High" %}
+                                selected
+                            {% endif %}
+                        >
+                            High
+                        </option>
+
+                        <option
+                            value="Emergency"
+                            {% if priority_filter == "Emergency" %}
+                                selected
+                            {% endif %}
+                        >
+                            Emergency
+                        </option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="category">
+                        Category
+                    </label>
+
+                    <select
+                        id="category"
+                        name="category"
+                    >
+                        <option value="">
+                            All categories
+                        </option>
+
+                        {% for category in categories %}
+                            <option
+                                value="{{ category }}"
+                                {% if category_filter == category %}
+                                    selected
+                                {% endif %}
+                            >
+                                {{ category }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <button
+                    class="filter-button"
+                    type="submit"
+                >
+                    Apply
+                </button>
+
+                <a
+                    class="clear-button"
+                    href="{{ url_for('complaint_list') }}"
+                >
+                    Clear
+                </a>
+
+            </form>
+
+        </section>
+
+        <section class="results-heading">
+            <h2>
+                Reported Issues
+            </h2>
+
+            <span class="result-count">
+                {{ complaints|length }} complaint(s) found
+            </span>
+        </section>
+
+        <section class="complaints-grid">
+
+            {% if complaints %}
+
+                {% for complaint in complaints %}
+
+                    {% set status_class = complaint.status
+                        |lower
+                        |replace(" ", "-")
+                    %}
+
+                    <article class="complaint-card">
+
+                        {% if complaint.image_filename %}
+
+                            <img
+                                class="complaint-image"
+                                src="{{ url_for(
+                                    'complaint_image',
+                                    filename=complaint.image_filename
+                                ) }}"
+                                alt="Complaint image"
+                            >
+
+                        {% else %}
+
+                            <div class="no-image">
+                                No image uploaded for this complaint.
+                            </div>
+
+                        {% endif %}
+
+                        <div class="complaint-content">
+
+                            <div class="complaint-top">
+                                <div>
+                                    <h3 class="complaint-title">
+                                        {{ complaint.title }}
+                                    </h3>
+
+                                    <p class="complaint-id">
+                                        Complaint #{{ complaint.id }}
+                                    </p>
+                                </div>
+
+                                <span
+                                    class="badge status-{{ status_class }}"
+                                >
+                                    {{ complaint.status }}
+                                </span>
+                            </div>
+
+                            <p class="complaint-description">
+                                {{ complaint.description }}
+                            </p>
+
+                            {% if complaint.location %}
+                                <p class="complaint-meta">
+                                    <strong>Location:</strong>
+                                    {{ complaint.location }}
+                                </p>
+                            {% endif %}
+
+                            <p class="complaint-meta">
+                                <strong>Category:</strong>
+                                {{ complaint.category }}
+                            </p>
+
+                            <p class="complaint-meta">
+                                <strong>Reported on:</strong>
+                                {{ complaint.created_at.strftime(
+                                    "%d %b %Y, %I:%M %p"
+                                ) }}
+                            </p>
+
+                            <div class="badges">
+
+                                <span class="badge category-badge">
+                                    {{ complaint.category }}
+                                </span>
+
+                                <span class="badge priority-badge">
+                                    {{ complaint.priority }} Priority
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                        <div class="card-footer">
+                            Last updated:
+                            {{ complaint.updated_at.strftime(
+                                "%d %b %Y, %I:%M %p"
+                            ) if complaint.updated_at else "Not updated yet" }}
+                        </div>
+
+                    </article>
+
+                {% endfor %}
+
+            {% else %}
+
+                <div class="empty-state">
+                    <h3>
+                        No complaints found
+                    </h3>
+
+                    <p>
+                        Try changing your search or filter options.
+                    </p>
+
+                    {% if current_user.role != "admin" %}
+                        <a href="{{ url_for('new_complaint') }}">
+                            Report an Issue
+                        </a>
+                    {% endif %}
+                </div>
+
+            {% endif %}
+
+        </section>
+
+    </main>
+
+</body>
+</html>

@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>CivicSense - Smart Civic Complaint System</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+            color: #1f2937;
+        }
+
+        .navbar {
+            background: #1d4ed8;
+            color: white;
+            padding: 18px 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 15px;
+        }
+
+        .nav-links a:hover {
+            text-decoration: underline;
+        }
+
+        .hero {
+            min-height: 450px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 60px 20px;
+            background: linear-gradient(
+                135deg,
+                #dbeafe,
+                #eff6ff
+            );
+        }
+
+        .hero-content {
+            max-width: 760px;
+        }
+
+        .hero h1 {
+            margin-bottom: 18px;
+            font-size: 48px;
+            color: #1d4ed8;
+        }
+
+        .hero p {
+            font-size: 18px;
+            line-height: 1.7;
+            color: #4b5563;
+        }
+
+        .buttons {
+            margin-top: 30px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 13px 22px;
+            margin: 8px;
+            border-radius: 7px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .primary {
+            background: #1d4ed8;
+            color: white;
+        }
+
+        .primary:hover {
+            background: #1e40af;
+        }
+
+        .secondary {
+            background: white;
+            color: #1d4ed8;
+            border: 1px solid #1d4ed8;
+        }
+
+        .secondary:hover {
+            background: #dbeafe;
+        }
+
+        .features-section {
+            padding: 55px 8%;
+            text-align: center;
+        }
+
+        .features-section h2 {
+            color: #1d4ed8;
+            margin-bottom: 30px;
+        }
+
+        .features {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 22px;
+        }
+
+        .card {
+            width: 260px;
+            min-height: 180px;
+            padding: 25px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .card h3 {
+            color: #1d4ed8;
+            margin-top: 0;
+        }
+
+        .card p {
+            color: #6b7280;
+            line-height: 1.5;
+        }
+
+        .steps-section {
+            padding: 45px 8%;
+            background: white;
+            text-align: center;
+        }
+
+        .steps-section h2 {
+            color: #1d4ed8;
+        }
+
+        .steps {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-top: 28px;
+        }
+
+        .step {
+            width: 210px;
+            padding: 20px;
+        }
+
+        .step-number {
+            width: 42px;
+            height: 42px;
+            line-height: 42px;
+            margin: 0 auto 12px;
+            border-radius: 50%;
+            background: #1d4ed8;
+            color: white;
+            font-weight: bold;
+        }
+
+        .step h3 {
+            color: #1f2937;
+        }
+
+        .step p {
+            color: #6b7280;
+            line-height: 1.5;
+        }
+
+        footer {
+            padding: 25px;
+            text-align: center;
+            color: #6b7280;
+            background: #f4f7fb;
+        }
+
+        @media (max-width: 700px) {
+            .navbar {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .nav-links {
+                justify-content: center;
+            }
+
+            .hero h1 {
+                font-size: 36px;
+            }
+
+            .hero p {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <div class="logo">
+            CivicSense
+        </div>
+
+        <div class="nav-links">
+            <a href="/">Home</a>
+            <a href="/complaints">Complaints</a>
+            <a href="/health">API Health</a>
+
+            {% if current_user.is_authenticated %}
+                <a href="/dashboard">Dashboard</a>
+
+                {% if current_user.role == "admin" %}
+                    <a href="/admin/dashboard">
+                        Admin Dashboard
+                    </a>
+                {% endif %}
+
+                <a href="/logout">Logout</a>
+            {% else %}
+                <a href="/login">Login</a>
+                <a href="/register">Register</a>
+            {% endif %}
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Report. Track. Improve.</h1>
+
+            <p>
+                CivicSense is a smart civic complaint management platform
+                that helps citizens report public issues and track their
+                resolution progress.
+            </p>
+
+            <div class="buttons">
+                {% if current_user.is_authenticated %}
+                    <a href="/complaints/new" class="btn primary">
+                        Report an Issue
+                    </a>
+
+                    {% if current_user.role == "admin" %}
+                        <a
+                            href="/admin/dashboard"
+                            class="btn secondary"
+                        >
+                            Open Admin Dashboard
+                        </a>
+                    {% else %}
+                        <a
+                            href="/dashboard"
+                            class="btn secondary"
+                        >
+                            View My Dashboard
+                        </a>
+                    {% endif %}
+                {% else %}
+                    <a href="/register" class="btn primary">
+                        Get Started
+                    </a>
+
+                    <a href="/login" class="btn secondary">
+                        Login
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+
+    <section class="features-section">
+        <h2>What CivicSense Offers</h2>
+
+        <div class="features">
+            <div class="card">
+                <h3>Easy Reporting</h3>
+
+                <p>
+                    Citizens can report garbage, road, water, drainage
+                    and streetlight issues.
+                </p>
+            </div>
+
+            <div class="card">
+                <h3>Smart Classification</h3>
+
+                <p>
+                    Machine learning will automatically classify complaints
+                    into the correct civic issue category.
+                </p>
+            </div>
+
+            <div class="card">
+                <h3>Complaint Tracking</h3>
+
+                <p>
+                    Users can track complaint status from submission
+                    to resolution.
+                </p>
+            </div>
+
+            <div class="card">
+                <h3>Data Analytics</h3>
+
+                <p>
+                    Administrators can analyze complaint trends,
+                    priorities and resolution performance.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section class="steps-section">
+        <h2>How It Works</h2>
+
+        <div class="steps">
+            <div class="step">
+                <div class="step-number">1</div>
+
+                <h3>Register</h3>
+
+                <p>
+                    Create your CivicSense account.
+                </p>
+            </div>
+
+            <div class="step">
+                <div class="step-number">2</div>
+
+                <h3>Report</h3>
+
+                <p>
+                    Submit details about the civic issue.
+                </p>
+            </div>
+
+            <div class="step">
+                <div class="step-number">3</div>
+
+                <h3>Track</h3>
+
+                <p>
+                    Track your complaint status online.
+                </p>
+            </div>
+
+            <div class="step">
+                <div class="step-number">4</div>
+
+                <h3>Resolve</h3>
+
+                <p>
+                    Authorities work towards resolving the issue.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>
+            © 2026 CivicSense | Built with Flask, SQLite and Machine Learning
+        </p>
+    </footer>
+
+</body>
+</html>
